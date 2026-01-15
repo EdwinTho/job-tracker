@@ -7,6 +7,7 @@ import Kanban from './kanban.js';
 
 let modalElement = null;
 let overlayElement = null;
+let currentApplicationId = null;
 
 /**
  * Escape HTML to prevent XSS
@@ -188,6 +189,129 @@ export function close() {
   }
   hideOverlay();
   document.removeEventListener('keydown', handleEscapeKey);
+  currentApplicationId = null;
+}
+
+/**
+ * Get the Edit Application form content
+ */
+function getEditApplicationFormContent(application) {
+  return `
+    <form id="editApplicationForm" class="form">
+      <div class="form__group">
+        <label class="form__label" for="companyName">Company Name <span class="form__required">*</span></label>
+        <input type="text" id="companyName" name="companyName" class="form__input" required value="${escapeHtml(application.companyName)}">
+      </div>
+      <div class="form__group">
+        <label class="form__label" for="position">Position <span class="form__required">*</span></label>
+        <input type="text" id="position" name="position" class="form__input" required value="${escapeHtml(application.position)}">
+      </div>
+      <div class="form__group">
+        <label class="form__label" for="jobUrl">Job URL</label>
+        <input type="url" id="jobUrl" name="jobUrl" class="form__input" placeholder="https://..." value="${escapeHtml(application.jobUrl || '')}">
+      </div>
+      <div class="form__group">
+        <label class="form__label" for="dateApplied">Date Applied</label>
+        <input type="date" id="dateApplied" name="dateApplied" class="form__input" value="${application.dateApplied || ''}">
+      </div>
+      <div class="form__row">
+        <div class="form__group">
+          <label class="form__label" for="salaryMin">Salary Min</label>
+          <input type="number" id="salaryMin" name="salaryMin" class="form__input" placeholder="50000" value="${application.salaryMin || ''}">
+        </div>
+        <div class="form__group">
+          <label class="form__label" for="salaryMax">Salary Max</label>
+          <input type="number" id="salaryMax" name="salaryMax" class="form__input" placeholder="80000" value="${application.salaryMax || ''}">
+        </div>
+      </div>
+      <div class="form__group">
+        <label class="form__label" for="location">Location</label>
+        <input type="text" id="location" name="location" class="form__input" placeholder="City, State or Remote" value="${escapeHtml(application.location || '')}">
+      </div>
+      <div class="form__group">
+        <label class="form__label" for="status">Status</label>
+        <select id="status" name="status" class="form__select">
+          <option value="Applied" ${application.status === 'Applied' ? 'selected' : ''}>Applied</option>
+          <option value="Screening" ${application.status === 'Screening' ? 'selected' : ''}>Screening</option>
+          <option value="Interview" ${application.status === 'Interview' ? 'selected' : ''}>Interview</option>
+          <option value="Offer" ${application.status === 'Offer' ? 'selected' : ''}>Offer</option>
+          <option value="Rejected" ${application.status === 'Rejected' ? 'selected' : ''}>Rejected</option>
+        </select>
+      </div>
+      <div class="form__group">
+        <label class="form__label" for="notes">Notes</label>
+        <textarea id="notes" name="notes" class="form__textarea" placeholder="Add any notes about this application...">${escapeHtml(application.notes || '')}</textarea>
+      </div>
+    </form>
+  `;
+}
+
+/**
+ * Open the Application Details modal for viewing/editing
+ */
+export function openApplicationDetails(applicationId) {
+  const application = Storage.getApplicationById(applicationId);
+  if (!application) return;
+
+  currentApplicationId = applicationId;
+
+  const content = getEditApplicationFormContent(application);
+  const footerButtons = `
+    <button type="button" class="btn btn--secondary" id="modalCancelBtn">Cancel</button>
+    <button type="submit" form="editApplicationForm" class="btn btn--primary">Save Changes</button>
+  `;
+
+  showOverlay();
+
+  modalElement = document.createElement('div');
+  modalElement.className = 'modal-container';
+  modalElement.innerHTML = createModalHtml('Application Details', content, footerButtons);
+  document.body.appendChild(modalElement);
+
+  // Add event listeners
+  const form = document.getElementById('editApplicationForm');
+  const closeBtn = modalElement.querySelector('.modal__close');
+  const cancelBtn = document.getElementById('modalCancelBtn');
+
+  form.addEventListener('submit', handleEditApplicationSubmit);
+  closeBtn.addEventListener('click', close);
+  cancelBtn.addEventListener('click', close);
+  document.addEventListener('keydown', handleEscapeKey);
+
+  // Focus the first input
+  document.getElementById('companyName').focus();
+}
+
+/**
+ * Handle form submission for editing application
+ */
+function handleEditApplicationSubmit(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const companyName = form.companyName.value.trim();
+  const position = form.position.value.trim();
+
+  if (!companyName || !position) {
+    return;
+  }
+
+  const applicationData = {
+    id: currentApplicationId,
+    companyName: companyName,
+    position: position,
+    jobUrl: form.jobUrl.value.trim(),
+    dateApplied: form.dateApplied.value || getTodayDate(),
+    salaryMin: form.salaryMin.value ? parseInt(form.salaryMin.value, 10) : null,
+    salaryMax: form.salaryMax.value ? parseInt(form.salaryMax.value, 10) : null,
+    location: form.location.value.trim(),
+    status: form.status.value,
+    notes: form.notes.value
+  };
+
+  Storage.saveApplication(applicationData);
+  Kanban.render();
+  close();
 }
 
 /**
@@ -203,5 +327,6 @@ export function init() {
 export default {
   init,
   openAddApplication,
+  openApplicationDetails,
   close
 };

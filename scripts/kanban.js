@@ -3,6 +3,7 @@
  */
 
 import Storage from './storage.js';
+import Modal from './modal.js';
 
 const STATUSES = ['Applied', 'Screening', 'Interview', 'Offer', 'Rejected'];
 
@@ -153,6 +154,22 @@ function handleDrop(e) {
 }
 
 /**
+ * Handle card click - open details modal
+ */
+function handleCardClick(e) {
+  const card = e.target.closest('.card');
+  if (!card) return;
+
+  // Don't open modal if we're in the middle of dragging
+  if (card.classList.contains('card--dragging')) return;
+
+  const applicationId = card.dataset.id;
+  if (applicationId) {
+    Modal.openApplicationDetails(applicationId);
+  }
+}
+
+/**
  * Set up drag and drop event listeners
  */
 function setupDragAndDrop() {
@@ -167,11 +184,22 @@ function setupDragAndDrop() {
 }
 
 /**
+ * Set up card click event listeners
+ */
+function setupCardClick() {
+  const container = document.getElementById('kanban');
+  if (!container) return;
+
+  container.addEventListener('click', handleCardClick);
+}
+
+/**
  * Initialize the Kanban board
  */
 export function init() {
   render();
   setupDragAndDrop();
+  setupCardClick();
 }
 
 export default {
