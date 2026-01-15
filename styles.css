@@ -248,6 +248,57 @@ a:hover {
   font-style: italic;
 }
 
+/* Application Cards */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 0.875rem;
+  cursor: pointer;
+  transition: box-shadow var(--transition-speed), transform var(--transition-speed);
+  box-shadow: 0 1px 3px var(--shadow-color);
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transform: translateY(-2px);
+}
+
+.card__company {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.card__position {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.card__date,
+.card__location {
+  display: inline-flex;
+  align-items: center;
+}
+
+.card__location::before {
+  content: '📍';
+  margin-right: 0.25rem;
+  font-size: 0.625rem;
+}
+
 /* Utility Classes */
 .visually-hidden {
   position: absolute;
