@@ -35,3 +35,17 @@ Thread: https://ampcode.com/threads/T-019bc3ce-91ed-737c-b9c1-331192783407
   - All IDs are generated using timestamp + random string pattern
   - Status values: 'Applied', 'Screening', 'Interview', 'Offer', 'Rejected'
 ---
+
+## 2026-01-15 - US-003
+Thread: https://ampcode.com/threads/T-019bc3d0-6536-73ed-b6c6-889903f0862d
+- Implemented Kanban board layout with 5 status columns
+- Files created/modified:
+  - scripts/kanban.js - new module rendering Kanban columns with status counts
+  - scripts/app.js - imports and initializes Kanban module
+  - styles.css - added Kanban column styling with flexbox layout
+- **Learnings for future iterations:**
+  - Kanban.render() re-renders the entire board - call after data changes
+  - Kanban.STATUSES array contains the 5 status values in order
+  - Column content divs have data-status attribute for targeting specific columns
+  - Each column scrolls independently with overflow-y: auto on .kanban__column-content
+---
