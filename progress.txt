@@ -7,6 +7,7 @@
 - Storage key is 'jobTrackerData' - use Storage module from scripts/storage.js for all data operations
 - Application statuses: 'Applied', 'Screening', 'Interview', 'Offer', 'Rejected'
 - Cards use data-id attribute for referencing application ID - use escapeHtml() for user content
+- Modal module: use Modal.openAddApplication() for add form, Modal.close() to close - call Kanban.render() after data changes
 
 ---
 
@@ -62,4 +63,20 @@ Thread: https://ampcode.com/threads/T-019bc3d2-0f6f-76e8-ba6c-a9af0ecb44d4
   - Use escapeHtml() helper in kanban.js for any user-provided text
   - Cards show company name, position, date applied (formatted), and location (with 📍 icon)
   - Card hover effect includes shadow and slight Y translation for visual feedback
+---
+
+## 2026-01-15 - US-005
+Thread: https://ampcode.com/threads/T-019bc3d3-ba13-74a5-b38c-952e9b5b9e63
+- Implemented Add Application modal with form
+- Files created/modified:
+  - scripts/modal.js - new module with modal creation, form handling, and keyboard support
+  - scripts/app.js - imports and initializes Modal module
+  - styles.css - added modal overlay, container, form input styles
+- **Learnings for future iterations:**
+  - Modal module exports: init(), openAddApplication(), close()
+  - Modal creates overlay element once and reuses it
+  - Form uses HTML5 validation with required attribute
+  - Escape key listener added/removed on modal open/close to avoid memory leaks
+  - Modal.close() handles cleanup of both modal and overlay
+  - Form styles (.form__group, .form__input, .form__row) are reusable for other forms
 ---
