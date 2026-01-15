@@ -1,0 +1,302 @@
+{
+  "project": "Job Application Tracker",
+  "branchName": "ralph/job-tracker-mvp",
+  "description": "A web-based Job Application Tracker with Kanban board, localStorage persistence, statistics dashboard, and mobile-responsive design",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Project Setup and Base Structure",
+      "description": "As a developer, I need the base HTML/CSS/JS structure so I can build features on a solid foundation.",
+      "acceptanceCriteria": [
+        "Create index.html with semantic structure (header, main, footer)",
+        "Create styles.css with CSS variables for theming (--bg-color, --text-color, --primary-color, etc.)",
+        "Create scripts/app.js as main entry point",
+        "Set up CSS reset and base typography",
+        "Implement responsive breakpoints (mobile: <768px, tablet: 768-1024px, desktop: >1024px)",
+        "Page loads without console errors",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Data Model and localStorage Service",
+      "description": "As a developer, I need a data layer to persist and retrieve application data.",
+      "acceptanceCriteria": [
+        "Create scripts/storage.js module",
+        "Data structure: { applications: [], contacts: [], interviews: [] }",
+        "Application schema: id, companyName, position, jobUrl, dateApplied, salaryMin, salaryMax, location, status, notes, createdAt, updatedAt",
+        "Contact schema: id, applicationId, name, role, email, phone, notes",
+        "Interview schema: id, applicationId, date, type (phone/video/onsite), notes, completed",
+        "All data saves to localStorage under key 'jobTrackerData'",
+        "Implement: getApplications(), saveApplication(), deleteApplication(), getContacts(appId), saveContact(), getInterviews(appId), saveInterview()",
+        "Data persists after page reload"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Kanban Board Layout",
+      "description": "As a job seeker, I want to see my applications organized by status in columns so I can visualize my pipeline.",
+      "acceptanceCriteria": [
+        "Create scripts/kanban.js module",
+        "Display 5 columns: Applied, Screening, Interview, Offer, Rejected",
+        "Each column header shows column name and count of applications",
+        "Columns use CSS grid/flexbox layout",
+        "Empty columns show placeholder message 'No applications'",
+        "Columns scroll independently when content overflows",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Application Card Component",
+      "description": "As a job seeker, I want to see application cards in the Kanban columns showing key info.",
+      "acceptanceCriteria": [
+        "Application cards show: company name, position, date applied, location",
+        "Cards have distinct visual styling with border/shadow",
+        "Cards are rendered in their correct status column",
+        "Cards pulled from storage.getApplications()",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Add New Application Modal",
+      "description": "As a job seeker, I want to add new job applications so I can track them.",
+      "acceptanceCriteria": [
+        "Create scripts/modal.js module",
+        "'Add Application' button in header opens modal",
+        "Modal form fields: company name (required), position (required), job URL, date applied (default today), salary min, salary max, location",
+        "Form validates required fields before submission",
+        "New applications default to 'Applied' status",
+        "Modal closes on successful save",
+        "Escape key closes modal",
+        "New application appears in Applied column",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Drag and Drop Between Columns",
+      "description": "As a job seeker, I want to drag applications between columns so I can update their status quickly.",
+      "acceptanceCriteria": [
+        "Implement using HTML5 Drag and Drop API (dragstart, dragover, drop)",
+        "Card opacity reduces when dragging",
+        "Drop zones highlight when card hovers over them",
+        "Status updates in localStorage on drop",
+        "Card appears in new column after drop",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "Application Details Modal - View and Edit",
+      "description": "As a job seeker, I want to view and edit full details of an application.",
+      "acceptanceCriteria": [
+        "Click on card opens detail modal",
+        "Shows all application fields in editable form",
+        "Notes section with textarea for freeform text",
+        "Save button updates application in storage",
+        "Cancel button closes without saving",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008",
+      "title": "Application Details - Contacts Section",
+      "description": "As a job seeker, I want to add contacts to an application to track my connections.",
+      "acceptanceCriteria": [
+        "Detail modal has Contacts section",
+        "List existing contacts for the application",
+        "Add Contact button opens inline form: name, role, email, phone, notes",
+        "New contact saves to storage with applicationId",
+        "Contacts persist after closing and reopening modal",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-009",
+      "title": "Application Details - Interviews Section",
+      "description": "As a job seeker, I want to track scheduled interviews for an application.",
+      "acceptanceCriteria": [
+        "Detail modal has Interviews section",
+        "List existing interviews for the application",
+        "Add Interview button opens inline form: date, type (phone/video/onsite), notes",
+        "New interview saves to storage with applicationId",
+        "Interview can be marked as completed",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-010",
+      "title": "Delete Application",
+      "description": "As a job seeker, I want to delete applications I no longer need to track.",
+      "acceptanceCriteria": [
+        "Delete button in application detail modal",
+        "Shows confirmation dialog before deleting",
+        "Deletes application and associated contacts/interviews from storage",
+        "Modal closes and card removed from Kanban board",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-011",
+      "title": "Statistics Dashboard - Summary Cards",
+      "description": "As a job seeker, I want to see summary statistics about my job search.",
+      "acceptanceCriteria": [
+        "Create scripts/stats.js module",
+        "Dashboard section above the Kanban board",
+        "Display: total applications count",
+        "Display: response rate (% of applications moved past 'Applied')",
+        "Display: average days to first response (from dateApplied to status change)",
+        "Stats update when applications data changes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-012",
+      "title": "Statistics Dashboard - Charts",
+      "description": "As a job seeker, I want to see visual charts of my application data.",
+      "acceptanceCriteria": [
+        "Load Chart.js via CDN in index.html",
+        "Display pie/doughnut chart showing applications by status",
+        "Display line chart showing applications over last 30 days",
+        "Charts update when applications data changes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-013",
+      "title": "Search and Filter",
+      "description": "As a job seeker, I want to search and filter applications so I can find specific ones quickly.",
+      "acceptanceCriteria": [
+        "Create scripts/filters.js module",
+        "Search bar filters by company name and position (live search on keyup)",
+        "Filter dropdown for status (All, Applied, Screening, Interview, Offer, Rejected)",
+        "Filter by date range (from/to date pickers)",
+        "Filters combine together",
+        "Clear filters button resets all",
+        "Show count of filtered results",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 13,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-014",
+      "title": "Export to CSV",
+      "description": "As a job seeker, I want to export my data to CSV so I can backup or analyze in spreadsheet software.",
+      "acceptanceCriteria": [
+        "Create scripts/export.js module",
+        "Export button in header",
+        "CSV includes all application fields",
+        "Filename format: job-applications-YYYY-MM-DD.csv",
+        "Triggers browser download via Blob/URL.createObjectURL",
+        "Handles special characters (commas, quotes) correctly with proper escaping"
+      ],
+      "priority": 14,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-015",
+      "title": "Dark Mode Toggle",
+      "description": "As a user, I want to toggle dark mode so I can use the app comfortably in low light.",
+      "acceptanceCriteria": [
+        "Create scripts/theme.js module",
+        "Toggle button in header with sun/moon icon",
+        "Dark theme swaps CSS variable values",
+        "Theme preference saves to localStorage",
+        "Respects system preference (prefers-color-scheme) on first load",
+        "Smooth CSS transition between themes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 15,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-016",
+      "title": "Mobile Responsive Design",
+      "description": "As a job seeker, I want to use the app on my phone so I can update applications on the go.",
+      "acceptanceCriteria": [
+        "Kanban columns become horizontally scrollable on mobile (<768px)",
+        "Touch-friendly tap targets (min 44px height)",
+        "Modals are full-screen on mobile",
+        "Statistics charts resize appropriately",
+        "All features accessible at 375px width",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 16,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-017",
+      "title": "Print-Friendly View",
+      "description": "As a job seeker, I want to print my applications so I can have a physical reference.",
+      "acceptanceCriteria": [
+        "Add @media print stylesheet",
+        "Hide non-essential UI (buttons, navigation, modals)",
+        "Applications display in clean table format",
+        "Table includes: company, position, status, date applied, location",
+        "Fits on standard letter/A4 paper"
+      ],
+      "priority": 17,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-018",
+      "title": "Demo Data Toggle",
+      "description": "As a new user, I want to load sample data so I can explore the app's features.",
+      "acceptanceCriteria": [
+        "'Load Demo Data' button visible when no applications exist (empty state)",
+        "Also accessible from a settings/menu dropdown",
+        "Loads 8-10 sample applications across all statuses with varied data",
+        "Confirmation dialog before loading warns about existing data",
+        "Demo data appears in Kanban board after loading",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 18,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

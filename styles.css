@@ -1,0 +1,247 @@
+/* CSS Variables for Theming */
+:root {
+  --bg-color: #f5f5f7;
+  --bg-secondary: #ffffff;
+  --text-color: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --primary-color: #0071e3;
+  --primary-hover: #0077ed;
+  --border-color: #d2d2d7;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --success-color: #34c759;
+  --warning-color: #ff9500;
+  --danger-color: #ff3b30;
+  --card-bg: #ffffff;
+  --header-bg: #ffffff;
+  --footer-bg: #f5f5f7;
+  --transition-speed: 0.2s;
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+  --bg-color: #1d1d1f;
+  --bg-secondary: #2c2c2e;
+  --text-color: #f5f5f7;
+  --text-secondary: #a1a1a6;
+  --primary-color: #0a84ff;
+  --primary-hover: #409cff;
+  --border-color: #3a3a3c;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --card-bg: #2c2c2e;
+  --header-bg: #2c2c2e;
+  --footer-bg: #1d1d1f;
+}
+
+/* CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Base Typography */
+h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+p {
+  font-size: 1rem;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header */
+.header {
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background-color var(--transition-speed);
+}
+
+.header__title {
+  color: var(--text-color);
+}
+
+.header__nav {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* Main Content */
+.main {
+  flex: 1;
+  padding: 1.5rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--footer-bg);
+  border-top: 1px solid var(--border-color);
+  padding: 1rem 1.5rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  transition: background-color var(--transition-speed);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.btn--primary {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.btn--primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn--secondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.btn--secondary:hover {
+  background-color: var(--bg-color);
+}
+
+.btn--danger {
+  background-color: var(--danger-color);
+  color: #ffffff;
+}
+
+.btn--danger:hover {
+  opacity: 0.9;
+}
+
+/* Stats Section */
+.stats {
+  margin-bottom: 1.5rem;
+}
+
+/* Kanban Section */
+.kanban {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+/* Utility Classes */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Responsive Breakpoints */
+/* Mobile: < 768px */
+@media (max-width: 767px) {
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .header__title {
+    font-size: 1.5rem;
+  }
+
+  .main {
+    padding: 1rem;
+  }
+
+  .kanban {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+}
+
+/* Tablet: 768px - 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .main {
+    padding: 1.25rem;
+  }
+}
+
+/* Desktop: > 1024px */
+@media (min-width: 1025px) {
+  .header {
+    padding: 1rem 2rem;
+  }
+
+  .main {
+    padding: 2rem;
+  }
+
+  .footer {
+    padding: 1rem 2rem;
+  }
+}
