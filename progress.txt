@@ -108,3 +108,16 @@ Thread: https://ampcode.com/threads/T-019bc3d7-906b-75b8-a071-eee9a8b60bba
   - currentApplicationId tracks which app is being edited to properly save updates
   - Click handler checks for card--dragging class to prevent opening modal during drag operations
 ---
+
+## 2026-01-15 - US-008
+Thread: https://ampcode.com/threads/T-019bc3d9-c529-734e-a0f6-e7e76ac4b826
+- Implemented Contacts section in Application Details modal
+- Files modified:
+  - scripts/modal.js - added renderContactsList(), setupContactsSection(), clearContactForm(), handleSaveContact() functions; updated getEditApplicationFormContent() to include contacts section HTML
+  - styles.css - added .details-section, .contact-item, .inline-form, and .btn--small styles
+- **Learnings for future iterations:**
+  - Contacts section uses Storage.getContacts(applicationId) to fetch contacts for the application
+  - Inline form pattern: use .inline-form--hidden to toggle visibility, clearContactForm() to reset fields
+  - Use setupContactsSection() after modal render to wire up event listeners
+  - Contact items display name, role, email (📧), phone (📞), and notes with proper escaping
+---
