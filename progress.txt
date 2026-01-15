@@ -80,3 +80,17 @@ Thread: https://ampcode.com/threads/T-019bc3d3-ba13-74a5-b38c-952e9b5b9e63
   - Modal.close() handles cleanup of both modal and overlay
   - Form styles (.form__group, .form__input, .form__row) are reusable for other forms
 ---
+
+## 2026-01-15 - US-006
+Thread: https://ampcode.com/threads/T-019bc3d6-049c-72ef-b1d1-8fd0c2e85a4f
+- Implemented HTML5 drag and drop for Kanban cards
+- Files modified:
+  - scripts/kanban.js - added draggable="true" to cards, drag event handlers (dragstart, dragend, dragover, dragleave, drop), setupDragAndDrop() function
+  - styles.css - added .card--dragging (opacity 0.5, rotate), .kanban__column-content--dragover (blue highlight border)
+- **Learnings for future iterations:**
+  - Use event delegation on #kanban container for all drag events (more efficient than per-card listeners)
+  - Drag data is stored via e.dataTransfer.setData('text/plain', id) and retrieved with getData()
+  - Must call e.preventDefault() in dragover to allow drop
+  - Column drop zone targeting: use e.target.closest('.kanban__column-content') to find the correct drop target
+  - After status update, call render() to re-render the board
+---
