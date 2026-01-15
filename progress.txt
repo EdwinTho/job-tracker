@@ -4,6 +4,8 @@
 - Responsive breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px
 - Minimum touch target size: 44px for buttons/interactive elements
 - Use BEM-style naming for CSS classes (e.g., .header__title, .btn--primary)
+- Storage key is 'jobTrackerData' - use Storage module from scripts/storage.js for all data operations
+- Application statuses: 'Applied', 'Screening', 'Interview', 'Offer', 'Rejected'
 
 ---
 
@@ -18,4 +20,18 @@ Thread: https://ampcode.com/threads/T-019bc3cc-eab8-7212-9e42-b69b6d1a2b12
   - CSS variables are set up for both light and dark themes
   - The kanban section (#kanban) and stats section (#stats) are placeholder divs ready for content
   - dev-browser skill is not available in this environment - manual browser testing required
+---
+
+## 2026-01-15 - US-002
+Thread: https://ampcode.com/threads/T-019bc3ce-91ed-737c-b9c1-331192783407
+- Implemented localStorage data persistence layer
+- Files created/modified:
+  - scripts/storage.js - complete storage module with all CRUD operations
+  - scripts/app.js - updated to import and use storage module
+- **Learnings for future iterations:**
+  - Storage module exports both named functions and default object for flexibility
+  - Use `Storage.getApplications()` to get all apps, `Storage.saveApplication({...})` to create/update
+  - Deleting an application cascades to delete associated contacts and interviews
+  - All IDs are generated using timestamp + random string pattern
+  - Status values: 'Applied', 'Screening', 'Interview', 'Offer', 'Rejected'
 ---

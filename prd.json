@@ -35,7 +35,7 @@
         "Data persists after page reload"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "notes": ""
     },
     {
