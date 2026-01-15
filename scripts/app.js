@@ -4,6 +4,7 @@
  */
 
 import Storage from './storage.js';
+import Kanban from './kanban.js';
 
 // Application state
 const App = {
@@ -23,8 +24,10 @@ const App = {
     const apps = Storage.getApplications();
     console.log(`Loaded ${apps.length} applications from storage`);
 
+    // Initialize Kanban board
+    Kanban.init();
+
     // Future modules will be initialized here
-    // - kanban.js
     // - modal.js
     // - stats.js
     // - filters.js

@@ -184,6 +184,68 @@ a:hover {
   gap: 1rem;
   overflow-x: auto;
   padding-bottom: 1rem;
+  min-height: 400px;
+}
+
+/* Kanban Columns */
+.kanban__column {
+  flex: 0 0 280px;
+  min-width: 280px;
+  background-color: var(--bg-secondary);
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 250px);
+  transition: background-color var(--transition-speed);
+}
+
+.kanban__column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-secondary);
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.kanban__column-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kanban__column-count {
+  background-color: var(--bg-color);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.kanban__column-content {
+  flex: 1;
+  padding: 0.75rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.kanban__empty {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 2rem 1rem;
+  font-style: italic;
 }
 
 /* Utility Classes */
@@ -221,6 +283,12 @@ a:hover {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
+  }
+
+  .kanban__column {
+    flex: 0 0 260px;
+    min-width: 260px;
+    scroll-snap-align: start;
   }
 }
 
