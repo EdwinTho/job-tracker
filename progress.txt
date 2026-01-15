@@ -7,7 +7,7 @@
 - Storage key is 'jobTrackerData' - use Storage module from scripts/storage.js for all data operations
 - Application statuses: 'Applied', 'Screening', 'Interview', 'Offer', 'Rejected'
 - Cards use data-id attribute for referencing application ID - use escapeHtml() for user content
-- Modal module: use Modal.openAddApplication() for add form, Modal.close() to close - call Kanban.render() after data changes
+- Modal module: use Modal.openAddApplication() for add form, Modal.openApplicationDetails(id) for edit, Modal.close() to close - call Kanban.render() after data changes
 
 ---
 
@@ -93,4 +93,18 @@ Thread: https://ampcode.com/threads/T-019bc3d6-049c-72ef-b1d1-8fd0c2e85a4f
   - Must call e.preventDefault() in dragover to allow drop
   - Column drop zone targeting: use e.target.closest('.kanban__column-content') to find the correct drop target
   - After status update, call render() to re-render the board
+---
+
+## 2026-01-15 - US-007
+Thread: https://ampcode.com/threads/T-019bc3d7-906b-75b8-a071-eee9a8b60bba
+- Implemented Application Details modal for viewing and editing applications
+- Files modified:
+  - scripts/modal.js - added openApplicationDetails(), getEditApplicationFormContent(), handleEditApplicationSubmit(), currentApplicationId state variable
+  - scripts/kanban.js - added Modal import, handleCardClick(), setupCardClick() to open details on card click
+- **Learnings for future iterations:**
+  - Modal.openApplicationDetails(applicationId) opens the edit modal for any application
+  - Edit form includes status dropdown and notes textarea (not present in add form)
+  - Form reuses escapeHtml() for XSS prevention on all user-provided values
+  - currentApplicationId tracks which app is being edited to properly save updates
+  - Click handler checks for card--dragging class to prevent opening modal during drag operations
 ---
