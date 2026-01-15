@@ -462,6 +462,108 @@ a:hover {
   min-height: 100px;
 }
 
+.form__textarea--small {
+  min-height: 60px;
+}
+
+/* Details Section Styles (for Contacts/Interviews in modal) */
+.details-section {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.details-section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.details-section__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.details-section__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.details-section__empty {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Contact Item Styles */
+.contact-item {
+  padding: 0.75rem;
+  background-color: var(--bg-color);
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-color);
+}
+
+.contact-item__name {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text-color);
+}
+
+.contact-item__role {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-top: 0.125rem;
+}
+
+.contact-item__details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.contact-item__notes {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Inline Form Styles */
+.inline-form {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--bg-color);
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.inline-form--hidden {
+  display: none;
+}
+
+.inline-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Small Button Variant */
+.btn--small {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  min-height: 36px;
+}
+
 /* Utility Classes */
 .visually-hidden {
   position: absolute;

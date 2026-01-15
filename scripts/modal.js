@@ -196,6 +196,8 @@ export function close() {
  * Get the Edit Application form content
  */
 function getEditApplicationFormContent(application) {
+  const contacts = Storage.getContacts(application.id);
+  
   return `
     <form id="editApplicationForm" class="form">
       <div class="form__group">
@@ -243,7 +245,137 @@ function getEditApplicationFormContent(application) {
         <textarea id="notes" name="notes" class="form__textarea" placeholder="Add any notes about this application...">${escapeHtml(application.notes || '')}</textarea>
       </div>
     </form>
+
+    <!-- Contacts Section -->
+    <div class="details-section">
+      <div class="details-section__header">
+        <h3 class="details-section__title">Contacts</h3>
+        <button type="button" class="btn btn--secondary btn--small" id="addContactBtn">+ Add Contact</button>
+      </div>
+      <div id="contactsList" class="details-section__list">
+        ${renderContactsList(contacts)}
+      </div>
+      <div id="addContactForm" class="inline-form inline-form--hidden">
+        <div class="form__group">
+          <label class="form__label" for="contactName">Name <span class="form__required">*</span></label>
+          <input type="text" id="contactName" class="form__input" placeholder="Contact name">
+        </div>
+        <div class="form__group">
+          <label class="form__label" for="contactRole">Role</label>
+          <input type="text" id="contactRole" class="form__input" placeholder="e.g. Hiring Manager, Recruiter">
+        </div>
+        <div class="form__row">
+          <div class="form__group">
+            <label class="form__label" for="contactEmail">Email</label>
+            <input type="email" id="contactEmail" class="form__input" placeholder="email@company.com">
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="contactPhone">Phone</label>
+            <input type="tel" id="contactPhone" class="form__input" placeholder="(555) 123-4567">
+          </div>
+        </div>
+        <div class="form__group">
+          <label class="form__label" for="contactNotes">Notes</label>
+          <textarea id="contactNotes" class="form__textarea form__textarea--small" placeholder="Any notes about this contact..."></textarea>
+        </div>
+        <div class="inline-form__actions">
+          <button type="button" class="btn btn--secondary btn--small" id="cancelContactBtn">Cancel</button>
+          <button type="button" class="btn btn--primary btn--small" id="saveContactBtn">Save Contact</button>
+        </div>
+      </div>
+    </div>
   `;
+}
+
+/**
+ * Render the list of contacts
+ */
+function renderContactsList(contacts) {
+  if (contacts.length === 0) {
+    return '<p class="details-section__empty">No contacts added yet.</p>';
+  }
+  
+  return contacts.map(contact => `
+    <div class="contact-item" data-contact-id="${contact.id}">
+      <div class="contact-item__info">
+        <div class="contact-item__name">${escapeHtml(contact.name)}</div>
+        ${contact.role ? `<div class="contact-item__role">${escapeHtml(contact.role)}</div>` : ''}
+        <div class="contact-item__details">
+          ${contact.email ? `<span class="contact-item__email">📧 ${escapeHtml(contact.email)}</span>` : ''}
+          ${contact.phone ? `<span class="contact-item__phone">📞 ${escapeHtml(contact.phone)}</span>` : ''}
+        </div>
+        ${contact.notes ? `<div class="contact-item__notes">${escapeHtml(contact.notes)}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+/**
+ * Setup contacts section event listeners
+ */
+function setupContactsSection() {
+  const addContactBtn = document.getElementById('addContactBtn');
+  const cancelContactBtn = document.getElementById('cancelContactBtn');
+  const saveContactBtn = document.getElementById('saveContactBtn');
+  const addContactForm = document.getElementById('addContactForm');
+
+  if (addContactBtn) {
+    addContactBtn.addEventListener('click', () => {
+      addContactForm.classList.remove('inline-form--hidden');
+      document.getElementById('contactName').focus();
+    });
+  }
+
+  if (cancelContactBtn) {
+    cancelContactBtn.addEventListener('click', () => {
+      clearContactForm();
+      addContactForm.classList.add('inline-form--hidden');
+    });
+  }
+
+  if (saveContactBtn) {
+    saveContactBtn.addEventListener('click', handleSaveContact);
+  }
+}
+
+/**
+ * Clear the contact form fields
+ */
+function clearContactForm() {
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactRole').value = '';
+  document.getElementById('contactEmail').value = '';
+  document.getElementById('contactPhone').value = '';
+  document.getElementById('contactNotes').value = '';
+}
+
+/**
+ * Handle saving a new contact
+ */
+function handleSaveContact() {
+  const name = document.getElementById('contactName').value.trim();
+  
+  if (!name) {
+    document.getElementById('contactName').focus();
+    return;
+  }
+
+  const contactData = {
+    applicationId: currentApplicationId,
+    name: name,
+    role: document.getElementById('contactRole').value.trim(),
+    email: document.getElementById('contactEmail').value.trim(),
+    phone: document.getElementById('contactPhone').value.trim(),
+    notes: document.getElementById('contactNotes').value.trim()
+  };
+
+  Storage.saveContact(contactData);
+
+  const contacts = Storage.getContacts(currentApplicationId);
+  document.getElementById('contactsList').innerHTML = renderContactsList(contacts);
+
+  clearContactForm();
+  document.getElementById('addContactForm').classList.add('inline-form--hidden');
 }
 
 /**
@@ -277,6 +409,9 @@ export function openApplicationDetails(applicationId) {
   closeBtn.addEventListener('click', close);
   cancelBtn.addEventListener('click', close);
   document.addEventListener('keydown', handleEscapeKey);
+
+  // Setup contacts section
+  setupContactsSection();
 
   // Focus the first input
   document.getElementById('companyName').focus();
