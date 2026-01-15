@@ -6,6 +6,7 @@
 - Use BEM-style naming for CSS classes (e.g., .header__title, .btn--primary)
 - Storage key is 'jobTrackerData' - use Storage module from scripts/storage.js for all data operations
 - Application statuses: 'Applied', 'Screening', 'Interview', 'Offer', 'Rejected'
+- Cards use data-id attribute for referencing application ID - use escapeHtml() for user content
 
 ---
 
@@ -48,4 +49,17 @@ Thread: https://ampcode.com/threads/T-019bc3d0-6536-73ed-b6c6-889903f0862d
   - Kanban.STATUSES array contains the 5 status values in order
   - Column content divs have data-status attribute for targeting specific columns
   - Each column scrolls independently with overflow-y: auto on .kanban__column-content
+---
+
+## 2026-01-15 - US-004
+Thread: https://ampcode.com/threads/T-019bc3d2-0f6f-76e8-ba6c-a9af0ecb44d4
+- Implemented application card component for Kanban board
+- Files modified:
+  - scripts/kanban.js - added renderCard() function, formatDate() helper, escapeHtml() for XSS prevention
+  - styles.css - added .card component styles with hover effects and shadow
+- **Learnings for future iterations:**
+  - Cards have data-id attribute for identifying which application they represent
+  - Use escapeHtml() helper in kanban.js for any user-provided text
+  - Cards show company name, position, date applied (formatted), and location (with 📍 icon)
+  - Card hover effect includes shadow and slight Y translation for visual feedback
 ---
