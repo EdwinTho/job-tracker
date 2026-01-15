@@ -27,7 +27,7 @@ function formatDate(dateString) {
  */
 function renderCard(application) {
   return `
-    <div class="card" data-id="${application.id}">
+    <div class="card" data-id="${application.id}" draggable="true">
       <h3 class="card__company">${escapeHtml(application.companyName)}</h3>
       <p class="card__position">${escapeHtml(application.position)}</p>
       <div class="card__meta">
@@ -74,10 +74,104 @@ export function render() {
 }
 
 /**
+ * Handle drag start - store the dragged card's ID
+ */
+function handleDragStart(e) {
+  const card = e.target.closest('.card');
+  if (!card) return;
+
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', card.dataset.id);
+  card.classList.add('card--dragging');
+}
+
+/**
+ * Handle drag end - remove dragging styles
+ */
+function handleDragEnd(e) {
+  const card = e.target.closest('.card');
+  if (card) {
+    card.classList.remove('card--dragging');
+  }
+  
+  document.querySelectorAll('.kanban__column-content--dragover').forEach(col => {
+    col.classList.remove('kanban__column-content--dragover');
+  });
+}
+
+/**
+ * Handle drag over - allow drop on columns
+ */
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  
+  const columnContent = e.target.closest('.kanban__column-content');
+  if (columnContent && !columnContent.classList.contains('kanban__column-content--dragover')) {
+    document.querySelectorAll('.kanban__column-content--dragover').forEach(col => {
+      col.classList.remove('kanban__column-content--dragover');
+    });
+    columnContent.classList.add('kanban__column-content--dragover');
+  }
+}
+
+/**
+ * Handle drag leave - remove highlight when leaving column
+ */
+function handleDragLeave(e) {
+  const columnContent = e.target.closest('.kanban__column-content');
+  if (columnContent && !columnContent.contains(e.relatedTarget)) {
+    columnContent.classList.remove('kanban__column-content--dragover');
+  }
+}
+
+/**
+ * Handle drop - update application status
+ */
+function handleDrop(e) {
+  e.preventDefault();
+  
+  const columnContent = e.target.closest('.kanban__column-content');
+  if (!columnContent) return;
+  
+  columnContent.classList.remove('kanban__column-content--dragover');
+  
+  const applicationId = e.dataTransfer.getData('text/plain');
+  if (!applicationId) return;
+  
+  const column = columnContent.closest('.kanban__column');
+  if (!column) return;
+  
+  const newStatus = column.dataset.status;
+  
+  const application = Storage.getApplicationById(applicationId);
+  if (application && application.status !== newStatus) {
+    application.status = newStatus;
+    Storage.saveApplication(application);
+    render();
+  }
+}
+
+/**
+ * Set up drag and drop event listeners
+ */
+function setupDragAndDrop() {
+  const container = document.getElementById('kanban');
+  if (!container) return;
+
+  container.addEventListener('dragstart', handleDragStart);
+  container.addEventListener('dragend', handleDragEnd);
+  container.addEventListener('dragover', handleDragOver);
+  container.addEventListener('dragleave', handleDragLeave);
+  container.addEventListener('drop', handleDrop);
+}
+
+/**
  * Initialize the Kanban board
  */
 export function init() {
   render();
+  setupDragAndDrop();
 }
 
 export default {
