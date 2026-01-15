@@ -1,0 +1,21 @@
+## Codebase Patterns
+- Use ES modules (`type="module"`) for JavaScript - all scripts use export/import
+- CSS variables defined in :root for theming, with [data-theme="dark"] override
+- Responsive breakpoints: mobile <768px, tablet 768-1024px, desktop >1024px
+- Minimum touch target size: 44px for buttons/interactive elements
+- Use BEM-style naming for CSS classes (e.g., .header__title, .btn--primary)
+
+---
+
+## 2026-01-15 - US-001
+Thread: https://ampcode.com/threads/T-019bc3cc-eab8-7212-9e42-b69b6d1a2b12
+- Implemented base project structure
+- Files created:
+  - index.html - semantic HTML with header, main, footer sections
+  - styles.css - CSS reset, variables for theming, responsive breakpoints
+  - scripts/app.js - main entry point with App module pattern
+- **Learnings for future iterations:**
+  - CSS variables are set up for both light and dark themes
+  - The kanban section (#kanban) and stats section (#stats) are placeholder divs ready for content
+  - dev-browser skill is not available in this environment - manual browser testing required
+---
