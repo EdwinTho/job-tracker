@@ -3,9 +3,12 @@
  * Initializes the application and coordinates modules
  */
 
+import Storage from './storage.js';
+
 // Application state
 const App = {
   initialized: false,
+  storage: Storage,
 
   /**
    * Initialize the application
@@ -16,8 +19,11 @@ const App = {
     console.log('Job Application Tracker initialized');
     this.initialized = true;
 
+    // Verify storage is working
+    const apps = Storage.getApplications();
+    console.log(`Loaded ${apps.length} applications from storage`);
+
     // Future modules will be initialized here
-    // - storage.js
     // - kanban.js
     // - modal.js
     // - stats.js
