@@ -5,6 +5,7 @@
 
 import Storage from './storage.js';
 import Kanban from './kanban.js';
+import Modal from './modal.js';
 
 // Application state
 const App = {
@@ -27,8 +28,10 @@ const App = {
     // Initialize Kanban board
     Kanban.init();
 
+    // Initialize Modal
+    Modal.init();
+
     // Future modules will be initialized here
-    // - modal.js
     // - stats.js
     // - filters.js
     // - theme.js
