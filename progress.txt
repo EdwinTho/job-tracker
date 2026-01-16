@@ -179,3 +179,20 @@ Thread: https://ampcode.com/threads/T-019bc7fe-996d-76a4-a8a2-80f41ac5ff6e
   - STATUS_COLORS map defines consistent colors for each status across charts
   - Charts automatically update when Stats.render() is called (which calls renderCharts())
 ---
+
+## 2026-01-16 - US-013
+Thread: https://ampcode.com/threads/T-019bc810-cada-7674-8d57-137429496077
+- Verified and committed Search and Filter functionality (previously implemented but uncommitted)
+- Files committed:
+  - scripts/filters.js - complete filter module with search, status, date range filters
+  - scripts/app.js - updated to initialize Filters module
+  - scripts/kanban.js - imports Filters.applyFilters() to render filtered applications
+  - styles.css - added .filters__* component styles
+  - index.html - added #filters section container
+- **Learnings for future iterations:**
+  - Filters module uses state object to track current filter values
+  - Filters.applyFilters(applications) returns filtered array - Kanban uses this in render()
+  - updateFilteredCount() shows "Showing X of Y" when filters are active
+  - Live search uses keyup event on search input
+  - Always check for uncommitted files with git status before assuming work is incomplete
+---
