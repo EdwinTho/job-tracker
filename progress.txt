@@ -209,3 +209,18 @@ Thread: https://ampcode.com/threads/T-019bc812-3a62-72ac-accc-fcbf66f66afc
   - Use Blob with type 'text/csv;charset=utf-8;' and URL.createObjectURL for download
   - Clean up with URL.revokeObjectURL after triggering download
 ---
+
+## 2026-01-16 - US-015
+Thread: https://ampcode.com/threads/T-019bc813-cae3-7208-80fe-f2526f6db4bc
+- Implemented Dark Mode toggle functionality
+- Files created/modified:
+  - scripts/theme.js - new module with theme toggle, localStorage persistence, system preference detection
+  - scripts/app.js - imports and initializes Theme module
+  - styles.css - added .btn--icon styles for the toggle button
+- **Learnings for future iterations:**
+  - Theme module uses 'jobTrackerTheme' localStorage key for persistence
+  - getSavedTheme() checks localStorage first, then system preference via matchMedia
+  - Toggle button uses emoji icons (☀️/🌙) for visual feedback
+  - Dark theme is applied via data-theme="dark" attribute on document.documentElement
+  - CSS transitions already set up on body and key elements via --transition-speed variable
+---
