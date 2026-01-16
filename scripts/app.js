@@ -6,6 +6,7 @@
 import Storage from './storage.js';
 import Kanban from './kanban.js';
 import Modal from './modal.js';
+import Stats from './stats.js';
 
 // Application state
 const App = {
@@ -31,10 +32,8 @@ const App = {
     // Initialize Modal
     Modal.init();
 
-    // Future modules will be initialized here
-    // - stats.js
-    // - filters.js
-    // - theme.js
+    // Initialize Stats dashboard
+    Stats.init();
   }
 };
 

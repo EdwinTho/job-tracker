@@ -4,6 +4,7 @@
 
 import Storage from './storage.js';
 import Kanban from './kanban.js';
+import Stats from './stats.js';
 
 let modalElement = null;
 let overlayElement = null;
@@ -167,6 +168,7 @@ function handleAddApplicationSubmit(e) {
 
   Storage.saveApplication(applicationData);
   Kanban.render();
+  Stats.render();
   close();
 }
 
@@ -600,6 +602,7 @@ async function handleDeleteApplication() {
   if (confirmed) {
     Storage.deleteApplication(currentApplicationId);
     Kanban.render();
+    Stats.render();
     close();
   }
 }
@@ -679,6 +682,7 @@ function handleEditApplicationSubmit(e) {
 
   Storage.saveApplication(applicationData);
   Kanban.render();
+  Stats.render();
   close();
 }
 
