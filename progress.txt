@@ -255,3 +255,19 @@ Thread: https://ampcode.com/threads/T-019bc817-ed23-7590-aca4-eab990878795
   - print-color-adjust: exact required to force background colors to print
   - Applications sorted by status order then company name in print view
 ---
+
+## 2026-01-16 - US-018
+Thread: https://ampcode.com/threads/T-019bc842-c00c-726a-8f1e-07608a2578fd
+- Implemented Demo Data Toggle functionality
+- Files created/modified:
+  - scripts/demo.js - new module with demo data, empty state, and settings menu
+  - scripts/app.js - imports and initializes Demo module
+  - styles.css - added .empty-state and .settings-menu component styles
+- **Learnings for future iterations:**
+  - Demo.init() should be called after other modules so Kanban board exists first
+  - Demo.isEmpty() checks if storage has no applications
+  - Demo.loadDemoData(showConfirm) loads 10 sample apps with contacts and interviews
+  - Settings menu uses aria-expanded attribute for accessibility
+  - Empty state replaces Kanban content when no applications exist
+  - Use event.stopPropagation() on toggle button to prevent document click handler from closing dropdown immediately
+---
