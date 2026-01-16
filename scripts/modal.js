@@ -557,6 +557,54 @@ function handleInterviewCompletedToggle(e) {
 }
 
 /**
+ * Show a confirmation dialog
+ */
+function showConfirmDialog(message) {
+  return new Promise((resolve) => {
+    const confirmOverlay = document.createElement('div');
+    confirmOverlay.className = 'confirm-overlay';
+    confirmOverlay.innerHTML = `
+      <div class="confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-message">
+        <p id="confirm-message" class="confirm-dialog__message">${escapeHtml(message)}</p>
+        <div class="confirm-dialog__buttons">
+          <button type="button" class="btn btn--secondary" id="confirmCancelBtn">Cancel</button>
+          <button type="button" class="btn btn--danger" id="confirmDeleteBtn">Delete</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(confirmOverlay);
+
+    const cancelBtn = document.getElementById('confirmCancelBtn');
+    const deleteBtn = document.getElementById('confirmDeleteBtn');
+
+    function cleanup(result) {
+      confirmOverlay.remove();
+      resolve(result);
+    }
+
+    cancelBtn.addEventListener('click', () => cleanup(false));
+    deleteBtn.addEventListener('click', () => cleanup(true));
+
+    deleteBtn.focus();
+  });
+}
+
+/**
+ * Handle delete application button click
+ */
+async function handleDeleteApplication() {
+  if (!currentApplicationId) return;
+
+  const confirmed = await showConfirmDialog('Are you sure you want to delete this application? This will also delete all associated contacts and interviews.');
+
+  if (confirmed) {
+    Storage.deleteApplication(currentApplicationId);
+    Kanban.render();
+    close();
+  }
+}
+
+/**
  * Open the Application Details modal for viewing/editing
  */
 export function openApplicationDetails(applicationId) {
@@ -567,6 +615,8 @@ export function openApplicationDetails(applicationId) {
 
   const content = getEditApplicationFormContent(application);
   const footerButtons = `
+    <button type="button" class="btn btn--danger" id="modalDeleteBtn">Delete</button>
+    <div class="modal__footer-spacer"></div>
     <button type="button" class="btn btn--secondary" id="modalCancelBtn">Cancel</button>
     <button type="submit" form="editApplicationForm" class="btn btn--primary">Save Changes</button>
   `;
@@ -582,10 +632,12 @@ export function openApplicationDetails(applicationId) {
   const form = document.getElementById('editApplicationForm');
   const closeBtn = modalElement.querySelector('.modal__close');
   const cancelBtn = document.getElementById('modalCancelBtn');
+  const deleteBtn = document.getElementById('modalDeleteBtn');
 
   form.addEventListener('submit', handleEditApplicationSubmit);
   closeBtn.addEventListener('click', close);
   cancelBtn.addEventListener('click', close);
+  deleteBtn.addEventListener('click', handleDeleteApplication);
   document.addEventListener('keydown', handleEscapeKey);
 
   // Setup contacts section
