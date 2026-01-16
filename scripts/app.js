@@ -8,6 +8,7 @@ import Kanban from './kanban.js';
 import Modal from './modal.js';
 import Stats from './stats.js';
 import Filters from './filters.js';
+import Export from './export.js';
 
 // Application state
 const App = {
@@ -38,6 +39,9 @@ const App = {
 
     // Initialize Stats dashboard
     Stats.init();
+
+    // Initialize Export
+    Export.init();
   }
 };
 
