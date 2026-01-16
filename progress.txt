@@ -148,3 +148,19 @@ Thread: https://ampcode.com/threads/T-019bc7f9-5023-762f-997a-257e606da5e5
   - Confirmation dialog uses z-index: 1100 to appear above the modal overlay (z-index: 1000)
   - Storage.deleteApplication() already cascades to delete associated contacts and interviews
 ---
+
+## 2026-01-16 - US-011
+Thread: https://ampcode.com/threads/T-019bc7fb-b445-7618-b470-ecb302d465c0
+- Implemented Statistics Dashboard with summary cards
+- Files created/modified:
+  - scripts/stats.js - new module with Stats.init(), Stats.render(), calculateStats(), calculateAvgDaysToResponse()
+  - scripts/app.js - imports and initializes Stats module
+  - scripts/kanban.js - imports Stats, calls Stats.render() after drag-drop status changes
+  - scripts/modal.js - imports Stats, calls Stats.render() after add/edit/delete application
+  - styles.css - added .stats__cards grid layout, .stats__card component with value and label styling
+- **Learnings for future iterations:**
+  - Stats.render() should be called after any application data change (add, edit, delete, status change)
+  - Response rate = apps not in 'Applied' status / total apps
+  - Average days to response uses updatedAt timestamp compared to dateApplied
+  - Stats cards use CSS grid with auto-fit for responsive layout
+---
