@@ -164,3 +164,18 @@ Thread: https://ampcode.com/threads/T-019bc7fb-b445-7618-b470-ecb302d465c0
   - Average days to response uses updatedAt timestamp compared to dateApplied
   - Stats cards use CSS grid with auto-fit for responsive layout
 ---
+
+## 2026-01-16 - US-012
+Thread: https://ampcode.com/threads/T-019bc7fe-996d-76a4-a8a2-80f41ac5ff6e
+- Implemented Statistics Dashboard charts using Chart.js
+- Files modified:
+  - index.html - added Chart.js CDN script tag
+  - scripts/stats.js - added doughnut chart (applications by status) and line chart (last 30 days), renderCharts(), renderStatusChart(), renderTimelineChart(), getLast30DaysData() functions
+  - styles.css - added .stats__charts grid layout, .stats__chart container with title styling
+- **Learnings for future iterations:**
+  - Chart.js loaded via CDN (v4.4.1) - Chart is available globally
+  - Charts must be destroyed before re-rendering to avoid memory leaks: use chart.destroy()
+  - Stats module stores chart references in statusChart and timelineChart properties
+  - STATUS_COLORS map defines consistent colors for each status across charts
+  - Charts automatically update when Stats.render() is called (which calls renderCharts())
+---
