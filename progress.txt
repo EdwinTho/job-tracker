@@ -224,3 +224,17 @@ Thread: https://ampcode.com/threads/T-019bc813-cae3-7208-80fe-f2526f6db4bc
   - Dark theme is applied via data-theme="dark" attribute on document.documentElement
   - CSS transitions already set up on body and key elements via --transition-speed variable
 ---
+
+## 2026-01-16 - US-016
+Thread: https://ampcode.com/threads/T-019bc815-a8fc-75dd-8f0d-86cdd7b8e325
+- Implemented Mobile Responsive Design
+- Files modified:
+  - styles.css - added comprehensive mobile responsive styles
+- **Learnings for future iterations:**
+  - Mobile breakpoint (<768px): Kanban horizontal scroll with snap, full-screen modals, stacked stats/charts
+  - Extra small breakpoint (≤375px): Reduced padding, smaller fonts, but maintains 44px touch targets
+  - Modal full-screen on mobile uses position fixed with top/left/right/bottom: 0 and transform: none
+  - Charts canvas max-height reduced to 200px on mobile for better proportions
+  - Form rows (.form__row) switch from 2-column to 1-column on mobile
+  - Filters bar stacks vertically with full-width inputs on mobile
+---
