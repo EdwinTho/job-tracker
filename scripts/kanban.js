@@ -6,6 +6,7 @@ import Storage from './storage.js';
 import Modal from './modal.js';
 import Stats from './stats.js';
 import Filters from './filters.js';
+import Print from './print.js';
 
 const STATUSES = ['Applied', 'Screening', 'Interview', 'Offer', 'Rejected'];
 
@@ -154,6 +155,7 @@ function handleDrop(e) {
     Storage.saveApplication(application);
     render();
     Stats.render();
+    Print.render();
   }
 }
 

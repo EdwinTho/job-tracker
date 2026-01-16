@@ -1012,3 +1012,117 @@ a:hover {
     padding: 1rem 2rem;
   }
 }
+
+/* Print Styles */
+@media print {
+  /* Reset colors for print */
+  :root {
+    --bg-color: #ffffff;
+    --bg-secondary: #ffffff;
+    --text-color: #000000;
+    --text-secondary: #333333;
+    --border-color: #cccccc;
+    --card-bg: #ffffff;
+  }
+
+  /* Hide non-essential UI elements */
+  .header__nav,
+  .footer,
+  .stats,
+  .filters,
+  .modal-overlay,
+  .modal-container,
+  .confirm-overlay,
+  .btn {
+    display: none !important;
+  }
+
+  /* Simplified header for print */
+  .header {
+    position: static;
+    border-bottom: 2px solid #000000;
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+    background: transparent;
+  }
+
+  .header__title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  /* Main content reset */
+  .main {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  body {
+    background: #ffffff;
+    color: #000000;
+    font-size: 10pt;
+  }
+
+  /* Hide Kanban board (we'll show print table instead) */
+  .kanban {
+    display: none !important;
+  }
+
+  /* Print table styles */
+  .print-table {
+    display: table !important;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+    page-break-inside: auto;
+  }
+
+  .print-table th,
+  .print-table td {
+    border: 1px solid #cccccc;
+    padding: 6px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .print-table th {
+    background-color: #f0f0f0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .print-table tr {
+    page-break-inside: avoid;
+  }
+
+  .print-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Ensure page fits standard paper */
+  @page {
+    size: letter;
+    margin: 0.5in;
+  }
+
+  /* Print date in header */
+  .print-date {
+    display: block !important;
+    text-align: right;
+    font-size: 9pt;
+    color: #666666;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Hide print-only elements on screen */
+@media screen {
+  .print-table,
+  .print-date {
+    display: none;
+  }
+}

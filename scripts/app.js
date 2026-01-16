@@ -10,6 +10,7 @@ import Stats from './stats.js';
 import Filters from './filters.js';
 import Export from './export.js';
 import Theme from './theme.js';
+import Print from './print.js';
 
 // Application state
 const App = {
@@ -46,6 +47,9 @@ const App = {
 
     // Initialize Theme
     Theme.init();
+
+    // Initialize Print (for print-friendly table view)
+    Print.init();
   }
 };
 
