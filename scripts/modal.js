@@ -197,6 +197,7 @@ export function close() {
  */
 function getEditApplicationFormContent(application) {
   const contacts = Storage.getContacts(application.id);
+  const interviews = Storage.getInterviews(application.id);
   
   return `
     <form id="editApplicationForm" class="form">
@@ -284,6 +285,41 @@ function getEditApplicationFormContent(application) {
         </div>
       </div>
     </div>
+
+    <!-- Interviews Section -->
+    <div class="details-section">
+      <div class="details-section__header">
+        <h3 class="details-section__title">Interviews</h3>
+        <button type="button" class="btn btn--secondary btn--small" id="addInterviewBtn">+ Add Interview</button>
+      </div>
+      <div id="interviewsList" class="details-section__list">
+        ${renderInterviewsList(interviews)}
+      </div>
+      <div id="addInterviewForm" class="inline-form inline-form--hidden">
+        <div class="form__row">
+          <div class="form__group">
+            <label class="form__label" for="interviewDate">Date <span class="form__required">*</span></label>
+            <input type="datetime-local" id="interviewDate" class="form__input">
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="interviewType">Type</label>
+            <select id="interviewType" class="form__select">
+              <option value="phone">Phone</option>
+              <option value="video">Video</option>
+              <option value="onsite">Onsite</option>
+            </select>
+          </div>
+        </div>
+        <div class="form__group">
+          <label class="form__label" for="interviewNotes">Notes</label>
+          <textarea id="interviewNotes" class="form__textarea form__textarea--small" placeholder="Interview details, preparation notes..."></textarea>
+        </div>
+        <div class="inline-form__actions">
+          <button type="button" class="btn btn--secondary btn--small" id="cancelInterviewBtn">Cancel</button>
+          <button type="button" class="btn btn--primary btn--small" id="saveInterviewBtn">Save Interview</button>
+        </div>
+      </div>
+    </div>
   `;
 }
 
@@ -305,6 +341,56 @@ function renderContactsList(contacts) {
           ${contact.phone ? `<span class="contact-item__phone">📞 ${escapeHtml(contact.phone)}</span>` : ''}
         </div>
         ${contact.notes ? `<div class="contact-item__notes">${escapeHtml(contact.notes)}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+/**
+ * Format interview date for display
+ */
+function formatInterviewDate(dateString) {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit'
+  });
+}
+
+/**
+ * Get interview type label with icon
+ */
+function getInterviewTypeLabel(type) {
+  const types = {
+    phone: '📞 Phone',
+    video: '💻 Video',
+    onsite: '🏢 Onsite'
+  };
+  return types[type] || type;
+}
+
+/**
+ * Render the list of interviews
+ */
+function renderInterviewsList(interviews) {
+  if (interviews.length === 0) {
+    return '<p class="details-section__empty">No interviews scheduled yet.</p>';
+  }
+  
+  return interviews.map(interview => `
+    <div class="interview-item ${interview.completed ? 'interview-item--completed' : ''}" data-interview-id="${interview.id}">
+      <div class="interview-item__checkbox">
+        <input type="checkbox" class="interview-item__completed" ${interview.completed ? 'checked' : ''} title="Mark as completed">
+      </div>
+      <div class="interview-item__info">
+        <div class="interview-item__date">${escapeHtml(formatInterviewDate(interview.date))}</div>
+        <div class="interview-item__type">${getInterviewTypeLabel(interview.type)}</div>
+        ${interview.notes ? `<div class="interview-item__notes">${escapeHtml(interview.notes)}</div>` : ''}
       </div>
     </div>
   `).join('');
@@ -379,6 +465,98 @@ function handleSaveContact() {
 }
 
 /**
+ * Setup interviews section event listeners
+ */
+function setupInterviewsSection() {
+  const addInterviewBtn = document.getElementById('addInterviewBtn');
+  const cancelInterviewBtn = document.getElementById('cancelInterviewBtn');
+  const saveInterviewBtn = document.getElementById('saveInterviewBtn');
+  const addInterviewForm = document.getElementById('addInterviewForm');
+  const interviewsList = document.getElementById('interviewsList');
+
+  if (addInterviewBtn) {
+    addInterviewBtn.addEventListener('click', () => {
+      addInterviewForm.classList.remove('inline-form--hidden');
+      document.getElementById('interviewDate').focus();
+    });
+  }
+
+  if (cancelInterviewBtn) {
+    cancelInterviewBtn.addEventListener('click', () => {
+      clearInterviewForm();
+      addInterviewForm.classList.add('inline-form--hidden');
+    });
+  }
+
+  if (saveInterviewBtn) {
+    saveInterviewBtn.addEventListener('click', handleSaveInterview);
+  }
+
+  if (interviewsList) {
+    interviewsList.addEventListener('change', handleInterviewCompletedToggle);
+  }
+}
+
+/**
+ * Clear the interview form fields
+ */
+function clearInterviewForm() {
+  document.getElementById('interviewDate').value = '';
+  document.getElementById('interviewType').value = 'phone';
+  document.getElementById('interviewNotes').value = '';
+}
+
+/**
+ * Handle saving a new interview
+ */
+function handleSaveInterview() {
+  const dateValue = document.getElementById('interviewDate').value;
+  
+  if (!dateValue) {
+    document.getElementById('interviewDate').focus();
+    return;
+  }
+
+  const interviewData = {
+    applicationId: currentApplicationId,
+    date: dateValue,
+    type: document.getElementById('interviewType').value,
+    notes: document.getElementById('interviewNotes').value.trim(),
+    completed: false
+  };
+
+  Storage.saveInterview(interviewData);
+
+  const interviews = Storage.getInterviews(currentApplicationId);
+  document.getElementById('interviewsList').innerHTML = renderInterviewsList(interviews);
+
+  clearInterviewForm();
+  document.getElementById('addInterviewForm').classList.add('inline-form--hidden');
+}
+
+/**
+ * Handle toggling interview completed status
+ */
+function handleInterviewCompletedToggle(e) {
+  if (!e.target.classList.contains('interview-item__completed')) return;
+
+  const interviewItem = e.target.closest('.interview-item');
+  if (!interviewItem) return;
+
+  const interviewId = interviewItem.dataset.interviewId;
+  const interviews = Storage.getInterviews(currentApplicationId);
+  const interview = interviews.find(i => i.id === interviewId);
+
+  if (interview) {
+    interview.completed = e.target.checked;
+    Storage.saveInterview(interview);
+
+    const updatedInterviews = Storage.getInterviews(currentApplicationId);
+    document.getElementById('interviewsList').innerHTML = renderInterviewsList(updatedInterviews);
+  }
+}
+
+/**
  * Open the Application Details modal for viewing/editing
  */
 export function openApplicationDetails(applicationId) {
@@ -412,6 +590,9 @@ export function openApplicationDetails(applicationId) {
 
   // Setup contacts section
   setupContactsSection();
+
+  // Setup interviews section
+  setupInterviewsSection();
 
   // Focus the first input
   document.getElementById('companyName').focus();
