@@ -238,3 +238,20 @@ Thread: https://ampcode.com/threads/T-019bc815-a8fc-75dd-8f0d-86cdd7b8e325
   - Form rows (.form__row) switch from 2-column to 1-column on mobile
   - Filters bar stacks vertically with full-width inputs on mobile
 ---
+
+## 2026-01-16 - US-017
+Thread: https://ampcode.com/threads/T-019bc817-ed23-7590-aca4-eab990878795
+- Implemented print-friendly view with table format
+- Files created/modified:
+  - scripts/print.js - new module that generates print-only table with applications
+  - scripts/app.js - imports and initializes Print module
+  - scripts/kanban.js - imports Print, calls Print.render() after status changes
+  - scripts/modal.js - imports Print, calls Print.render() after add/edit/delete
+  - styles.css - added @media print stylesheet with table styling and hidden UI elements
+- **Learnings for future iterations:**
+  - Print table uses .print-table class hidden on screen (@media screen) and shown in print
+  - Print.render() should be called alongside Stats.render() when data changes
+  - @page rule sets letter size paper with 0.5in margins
+  - print-color-adjust: exact required to force background colors to print
+  - Applications sorted by status order then company name in print view
+---

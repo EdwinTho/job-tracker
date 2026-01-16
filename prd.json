@@ -279,7 +279,7 @@
         "Fits on standard letter/A4 paper"
       ],
       "priority": 17,
-      "passes": false,
+      "passes": true,
       "notes": ""
     },
     {
