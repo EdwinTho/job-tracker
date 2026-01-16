@@ -9,6 +9,7 @@ import Modal from './modal.js';
 import Stats from './stats.js';
 import Filters from './filters.js';
 import Export from './export.js';
+import Theme from './theme.js';
 
 // Application state
 const App = {
@@ -42,6 +43,9 @@ const App = {
 
     // Initialize Export
     Export.init();
+
+    // Initialize Theme
+    Theme.init();
   }
 };
 

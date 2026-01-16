@@ -173,6 +173,12 @@ a:hover {
   opacity: 0.9;
 }
 
+.btn--icon {
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
 /* Stats Section */
 .stats {
   margin-bottom: 1.5rem;
