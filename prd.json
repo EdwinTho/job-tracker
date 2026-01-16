@@ -231,7 +231,7 @@
         "Handles special characters (commas, quotes) correctly with proper escaping"
       ],
       "priority": 14,
-      "passes": false,
+      "passes": true,
       "notes": ""
     },
     {

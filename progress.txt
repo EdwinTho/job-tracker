@@ -196,3 +196,16 @@ Thread: https://ampcode.com/threads/T-019bc810-cada-7674-8d57-137429496077
   - Live search uses keyup event on search input
   - Always check for uncommitted files with git status before assuming work is incomplete
 ---
+
+## 2026-01-16 - US-014
+Thread: https://ampcode.com/threads/T-019bc812-3a62-72ac-accc-fcbf66f66afc
+- Implemented CSV export functionality for job applications
+- Files created/modified:
+  - scripts/export.js - new module with CSV generation, escaping, and Blob download
+  - scripts/app.js - imports and initializes Export module
+- **Learnings for future iterations:**
+  - Export button added to header nav using insertBefore() to position before Add Application
+  - CSV escaping: wrap in quotes and double-escape inner quotes if value contains comma, quote, or newline
+  - Use Blob with type 'text/csv;charset=utf-8;' and URL.createObjectURL for download
+  - Clean up with URL.revokeObjectURL after triggering download
+---
