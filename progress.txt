@@ -121,3 +121,17 @@ Thread: https://ampcode.com/threads/T-019bc3d9-c529-734e-a0f6-e7e76ac4b826
   - Use setupContactsSection() after modal render to wire up event listeners
   - Contact items display name, role, email (📧), phone (📞), and notes with proper escaping
 ---
+
+## 2026-01-16 - US-009
+Thread: https://ampcode.com/threads/T-019bc7f6-268a-7449-86d0-374a3542f532
+- Implemented Interviews section in Application Details modal
+- Files modified:
+  - scripts/modal.js - added renderInterviewsList(), formatInterviewDate(), getInterviewTypeLabel(), setupInterviewsSection(), clearInterviewForm(), handleSaveInterview(), handleInterviewCompletedToggle() functions; updated getEditApplicationFormContent() to include interviews section HTML
+  - styles.css - added .interview-item component styles with checkbox, completed state, and visual feedback
+- **Learnings for future iterations:**
+  - Interviews use Storage.getInterviews(applicationId) and Storage.saveInterview() for persistence
+  - Use datetime-local input type for interview date/time field
+  - Interview types: 'phone', 'video', 'onsite' - displayed with icons (📞, 💻, 🏢)
+  - Checkbox toggle pattern: use event delegation on the list container, find the item via closest(), then update storage
+  - Completed interviews get .interview-item--completed class with opacity reduction and strikethrough
+---
