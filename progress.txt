@@ -135,3 +135,16 @@ Thread: https://ampcode.com/threads/T-019bc7f6-268a-7449-86d0-374a3542f532
   - Checkbox toggle pattern: use event delegation on the list container, find the item via closest(), then update storage
   - Completed interviews get .interview-item--completed class with opacity reduction and strikethrough
 ---
+
+## 2026-01-16 - US-010
+Thread: https://ampcode.com/threads/T-019bc7f9-5023-762f-997a-257e606da5e5
+- Implemented Delete Application functionality with confirmation dialog
+- Files modified:
+  - scripts/modal.js - added showConfirmDialog() for promise-based confirmation, handleDeleteApplication() async handler, delete button in modal footer with spacer for left alignment
+  - styles.css - added .modal__footer-spacer, .confirm-overlay, .confirm-dialog styles for the confirmation dialog
+- **Learnings for future iterations:**
+  - Use promise-based confirmation dialogs: showConfirmDialog() returns a Promise that resolves to true/false
+  - Delete button positioned left in footer using .modal__footer-spacer with flex: 1 between delete and cancel/save buttons
+  - Confirmation dialog uses z-index: 1100 to appear above the modal overlay (z-index: 1000)
+  - Storage.deleteApplication() already cascades to delete associated contacts and interviews
+---
