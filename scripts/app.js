@@ -11,6 +11,7 @@ import Filters from './filters.js';
 import Export from './export.js';
 import Theme from './theme.js';
 import Print from './print.js';
+import Demo from './demo.js';
 
 // Application state
 const App = {
@@ -50,6 +51,9 @@ const App = {
 
     // Initialize Print (for print-friendly table view)
     Print.init();
+
+    // Initialize Demo (empty state and settings menu)
+    Demo.init();
   }
 };
 
