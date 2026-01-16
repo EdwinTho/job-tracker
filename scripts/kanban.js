@@ -5,6 +5,7 @@
 import Storage from './storage.js';
 import Modal from './modal.js';
 import Stats from './stats.js';
+import Filters from './filters.js';
 
 const STATUSES = ['Applied', 'Screening', 'Interview', 'Offer', 'Rejected'];
 
@@ -56,7 +57,8 @@ export function render() {
   const container = document.getElementById('kanban');
   if (!container) return;
 
-  const applications = Storage.getApplications();
+  const allApplications = Storage.getApplications();
+  const applications = Filters.applyFilters(allApplications);
 
   container.innerHTML = STATUSES.map(status => {
     const statusApps = getApplicationsByStatus(applications, status);

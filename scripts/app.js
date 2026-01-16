@@ -7,6 +7,7 @@ import Storage from './storage.js';
 import Kanban from './kanban.js';
 import Modal from './modal.js';
 import Stats from './stats.js';
+import Filters from './filters.js';
 
 // Application state
 const App = {
@@ -26,7 +27,10 @@ const App = {
     const apps = Storage.getApplications();
     console.log(`Loaded ${apps.length} applications from storage`);
 
-    // Initialize Kanban board
+    // Initialize Filters first (renders filter UI)
+    Filters.init();
+
+    // Initialize Kanban board (uses Filters.applyFilters)
     Kanban.init();
 
     // Initialize Modal
