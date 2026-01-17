@@ -2,7 +2,8 @@
 
 A comprehensive web application to track job applications through the entire hiring pipeline with a beautiful Kanban board interface.
 
-![Job Tracker Preview](https://via.placeholder.com/800x400/4a90e2/ffffff?text=Job+Tracker+Screenshot)
+![Job Tracker Preview]([<img width="1512" height="857" alt="Screenshot 2026-01-17 at 9 29 08 AM" src="https://github.com/user-attachments/assets/f97c425e-772b-4d2e-86fc-93cd2344096e" />](https://edwintho.github.io/job-tracker/)
+
 
 ## ✨ Features
 
