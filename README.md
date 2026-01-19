@@ -153,7 +153,7 @@ MIT License - feel free to use this for your own job search!
 
 **Edwin Tho**
 - GitHub: [@EdwinTho](https://github.com/EdwinTho)
-- LinkedIn: *[Add your LinkedIn]*
+- LinkedIn: *[https://www.linkedin.com/in/ed-gar/]*
 
 ---
 
